@@ -7,6 +7,8 @@ import UserContext from '../context/users/userContext';
 
 const SearchUser = ({ showClear, clearUsers, setAlert }) => {
     const userContext = useContext(UserContext); 
+
+    const { getUser, user, not_found, users } = userContext;
     
     const [info, setInfo] = useState({});
    
@@ -68,34 +70,35 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
     ));
         */
 
-    /*
+    
     useEffect(() => {
-        userContext.createUser(userContext.new_user);
-    },[userContext.user]);
-    */
-   
-    const searchUser = (uin) =>{
+        userContext.searchUsers();
 
-        userContext.getUser(uin); //getUser defined by userContext
-
-        
-        
         if(isEmpty(userContext.user)){
-            console.log("User not in database: ");
+            console.log("User not found: ");
             console.log(userContext.not_found);
-
-            //Creates a new user in the database with information provided
-            userContext.createUser(userContext.not_found);
-            //userContext.users.concat(userContext.user_not_found);
+            if(isEmpty(userContext.not_found)){
+                console.log("No search conducted");
+            }else{ //new user added to database
+                console.log("New user added to database");
+                console.log(userContext.not_found);
+                userContext.createUser(userContext.not_found);
+            }
+            
+         
         }else{
             console.log("UIN match was found");
             console.log(userContext.user);
         }
+
+    },[userContext.user]);
+    
+   
+    //Called by Manual check in
+    const searchUser = (uin) =>{
+
+        userContext.getUser(uin); //getUser defined by userContext
         
-       
-        //userContext.searchUsers();
-        
-        //console.log(this.props.createUser(this.props.user));
     }
 
     const enterPressed = (e) => {
@@ -166,6 +169,12 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
 
             //const data = userContext.user;
             const data= userContext.user;
+           
+
+           
+            
+
+
 
 
             const swipeSearch = (
@@ -191,12 +200,24 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
                 </div>
             );
             
-            const userItem = (
+            /*
+                const userItem = (
                 <div key={data.uin}>
                     <p>{data.firstName} {data.lastName}</p>
                     <p>UIN: {data.uin}</p>
                     <p>RSVP: {data.rsvp}</p>
                     <p>Checked In: {data.checkIn}</p>
+                    <br></br>
+                </div>
+            );
+            */
+
+            const userItem = (
+                <div key={info.uin}>
+                    <p>{info.firstName} {info.lastName}</p>
+                    <p>UIN: {info.uin}</p>
+                    <p>RSVP: {info.rsvp}</p>
+                    <p>Checked In: {info.checkIn}</p>
                     <br></br>
                 </div>
             );

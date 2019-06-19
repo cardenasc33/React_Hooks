@@ -23,17 +23,20 @@ export default (state, action) => {
         case USER_FOUND:
             return {
                 ...state,
-                user: action.payload
+                user: action.payload,
+                not_found: {}
             }
         case USER_NOT_FOUND:
             return {
                 ...state,
-                not_found: action.payload
+                not_found: action.payload,
+                user: {}
             }
         case NEW_USER:
             return {
                 ...state,
-                not_found: action.payload
+                not_found: action.payload,
+                new_user: undefined
                 //users: state.users.concat(action.payload)
             }
         case SET_LOADING:
