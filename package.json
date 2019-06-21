@@ -16,7 +16,7 @@
     "express-fileupload": "^1.1.4",
     "formidable": "^1.2.1",
     "mongodb": "^3.2.5",
-    "nodemon": "^1.19.0",
+    "nodemon": "^1.19.1",
     "npm": "^6.9.0",
     "react-csv-reader": "^1.2.2"
   }
