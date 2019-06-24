@@ -4,7 +4,7 @@ import UserContext from './userContext';
 import UserReducer from './userReducer';
 import {
     SEARCH_USERS,
-    SET_MODAL,
+    SET_LOADING,
     CLEAR_USERS,
     USER_FOUND,
     USER_NOT_FOUND,
@@ -18,35 +18,32 @@ export default (state, action) => {
             return {
                 ...state,
                 users: action.payload,
-                isShowing: false
+                loading: false
             }
         case USER_FOUND:
             return {
                 ...state,
                 user: action.payload,
-                not_found: {},
-                isShowing: true
+                not_found: {}
             }
         case USER_NOT_FOUND:
             return {
                 ...state,
                 not_found: action.payload,
-                user: {},
-                isShowing: true
+                user: {}
             }
         case NEW_USER:
             return {
                 ...state,
                 not_found: action.payload,
-                new_user: undefined,
-                isShowing: true
+                new_user: undefined
                 //users: state.users.concat(action.payload)
             }
-        case SET_MODAL:
+        case SET_LOADING:
             return {
                 //state is immutable, need to copy with new payload
                 ...state,
-                isShowing: true
+                loading: true
             }
         default:
             return state;

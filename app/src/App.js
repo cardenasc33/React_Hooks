@@ -11,11 +11,7 @@ import axios from 'axios';
 
 import UserState from './context/users/UserState';
 
-import Modal from './components/Modal';
-import useModal from './components/useModal';
-
 const App = () => {
-   const {isShowing, toggle} = useModal();
 
     return (
         <UserState>
@@ -27,7 +23,6 @@ const App = () => {
           <FileUploader/>
   
           <SearchUser/>
-     
           
           <Display/>
           </Fragment>
