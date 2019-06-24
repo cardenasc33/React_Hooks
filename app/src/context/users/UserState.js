@@ -4,7 +4,7 @@ import UserContext from './userContext';
 import UserReducer from './userReducer';
 import {
     SEARCH_USERS,
-    SET_LOADING,
+    SET_MODAL,
     USER_FOUND,
     USER_NOT_FOUND,
     NEW_USER
@@ -15,7 +15,7 @@ const UserState = props => {
         users: [],
         user: {},
         not_found: {},
-        loading: false
+        isShowing: false
     }
 
     //dispatch type back to reducer (using reducer hook)
@@ -81,7 +81,7 @@ const UserState = props => {
     //Clear Users
 
     //Set Loading
-    const setLoading = () => dispatch({ type: SET_LOADING });
+    const setModal = () => dispatch({ type: SET_MODAL}); //dispatches to users
 
 
 
@@ -93,11 +93,12 @@ const UserState = props => {
         value={{
             users: state.users,
             user: state.user,
-            loading: state.loading,
+            isShowing: state.isShowing,
             not_found: state.not_found,
             searchUsers,
             getUser,
-            createUser
+            createUser,
+            setModal
         }}
     >
         {props.children}

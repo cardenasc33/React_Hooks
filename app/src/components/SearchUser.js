@@ -5,12 +5,18 @@ import { fetchUser } from '../actions/userActions';
 import { exists } from 'fs';
 import UserContext from '../context/users/userContext';
 
-const SearchUser = ({ showClear, clearUsers, setAlert }) => {
-    const userContext = useContext(UserContext); 
+import Modal from './Modal';
+import useModal from './useModal'; //ties custom React Modal Hook and Modal component together
 
-    const { getUser, user, not_found, users } = userContext;
+const useForceUpdate = () => useState()[1];
+
+const SearchUser = ({}) => {
+    const userContext = useContext(UserContext); 
+   
     
-    const [info, setInfo] = useState({});
+    const forceUpdate = useForceUpdate();
+    
+    //const [info, setInfo] = useState({});
    
     
     const isEmpty = myObject => {
@@ -21,55 +27,7 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
         }
         return true;
     };
-    /*
-    useEffect(() => {
-
-        if(isEmpty(userContext.user)){
-            console.log("User not in database: ");
-            console.log(userContext.user_not_found);
-
-            //Creates a new user in the database with information provided
-            userContext.createUser(userContext.user_not_found);
-        }else{
-            console.log("UIN match was found");
-            console.log(userContext.user);
-        }
-        //userContext.createUser(userContext.createUser);
-    },[userContext.user])
-    */
-
-    /*
-    componentWillReceiveProps(nextProps){
-
-        
-        //console.log(nextProps.user);
-        //console.log(nextProps.user_not_found);
-        if(this.isEmpty(nextProps.user)){
-            console.log("User not in database: ");
-            console.log(nextProps.user_not_found);
-
-            //Creates a new user in the database with information provided
-            this.props.createUser(nextProps.user_not_found);
-        }else{
-            console.log("UIN match was found");
-            console.log(nextProps.user);
-        }
-       
-    }
-    */
-   
-    /*
-    const postItems = info.map(post => (
-        <div key={post.uin}>
-            <p>{post.firstName} {post.lastName}</p>
-            <p>UIN: {post.uin}</p>
-            <p>RSVP: {post.rsvp}</p>
-            <p>Checked In: {post.checkIn}</p>
-            <br></br>
-        </div>
-    ));
-        */
-
+  
     
     useEffect(() => {
         userContext.searchUsers();
@@ -83,6 +41,10 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
                 console.log("New user added to database");
                 console.log(userContext.not_found);
                 userContext.createUser(userContext.not_found);
+
+                //rerender component when new user added to database
+                forceUpdate();
+                
             }
             
          
@@ -98,6 +60,10 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
     const searchUser = (uin) =>{
 
         userContext.getUser(uin); //getUser defined by userContext
+        //TODO get response from user search
+        //display modal with information
+        //toggle(); //toggles the view of the modal
+        userContext.setModal();
         
     }
 
@@ -112,7 +78,7 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
         var typedUIN = document.getElementById('uinInput').value;
         if (typedUIN.length === 9){     
             searchUser(typedUIN);
-
+            
         }  
     }
 
@@ -213,11 +179,11 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
             */
 
             const userItem = (
-                <div key={info.uin}>
-                    <p>{info.firstName} {info.lastName}</p>
-                    <p>UIN: {info.uin}</p>
-                    <p>RSVP: {info.rsvp}</p>
-                    <p>Checked In: {info.checkIn}</p>
+                <div key={data.uin}>
+                    <p>{data.firstName} {data.lastName}</p>
+                    <p>UIN: {data.uin}</p>
+                    <p>RSVP: {data.rsvp}</p>
+                    <p>Checked In: {data.checkIn}</p>
                     <br></br>
                 </div>
             );
@@ -229,6 +195,7 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
                 {swipeSearch}
                 {manualSearch}
                 {userItem}
+                
 
             </div>
         )
@@ -239,6 +206,7 @@ const SearchUser = ({ showClear, clearUsers, setAlert }) => {
 SearchUser.propTypes = {
     searchUsers: PropTypes.func.isRequired,
     getUser: PropTypes.func.isRequired,   
+    setModal: PropTypes.func.isRequired,
     showClear: PropTypes.object,
     setAlert: PropTypes.object,
 }
