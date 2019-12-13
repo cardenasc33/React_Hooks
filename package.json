@@ -17,7 +17,7 @@
     "formidable": "^1.2.1",
     "mongodb": "^3.2.5",
     "nodemon": "^1.19.1",
-    "npm": "^6.9.0",
+    "npm": "^6.13.4",
     "react-csv-reader": "^1.2.2"
   }
 }
